@@ -20,7 +20,8 @@ ICON = "../data/icons/scalable/apps/com.system76.keyboardconfigurator.svg"
 # Appimage packaging
 PKG = "keyboard-configurator"
 APPID = "com.system76.keyboardconfigurator"
-ARCH = "x86_64"
+ARCH_x64 = "x86_64"
+ARCH_arm64 = "aarch64"
 
 # Remove previous build
 for i in glob.glob(f"{PKG}*.AppImage"):
@@ -39,8 +40,8 @@ subprocess.check_call(cmd)
 # Copy executable
 subprocess.check_call([f"strip", '-o', "system76-keyboard-configurator", f"{TARGET_DIR}/system76-keyboard-configurator"])
 
-# Download linuxdeploy
-LINUXDEPLOY = f"linuxdeploy-{ARCH}.AppImage"
+# Download linuxdeploy for arm64
+LINUXDEPLOY = f"linuxdeploy-{ARCH_arm64}.AppImage"
 LINUXDEPLOY_URL = f"https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/{LINUXDEPLOY}"
 if not os.path.exists(LINUXDEPLOY):
     with urlopen(LINUXDEPLOY_URL) as u:
@@ -60,4 +61,4 @@ subprocess.check_call([f"./{LINUXDEPLOY}",
                        f"--icon-file={ICON}",
                         "--plugin", "gtk",
                         "--output", "appimage"])
-shutil.move(f"System76_Keyboard_Configurator-{ARCH}.AppImage", f"{PKG}-{ARCH}.AppImage")
+shutil.move(f"System76_Keyboard_Configurator-{ARCH_arm64}.AppImage", f"{PKG}-{ARCH_arm64}.AppImage")
