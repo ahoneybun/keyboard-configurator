@@ -52,7 +52,7 @@ for ARCH in ARCHS:
         with urlopen(LINUXDEPLOY_URL) as u:
             with open(LINUXDEPLOY, 'wb') as f:
                 f.write(u.read())
-         os.chmod(LINUXDEPLOY, os.stat(LINUXDEPLOY).st_mode | 0o111)
+        os.chmod(LINUXDEPLOY, os.stat(LINUXDEPLOY).st_mode | 0o111)
 
 # Copy appdata
 os.makedirs(f"{PKG}.AppDir/usr/share/metainfo")
