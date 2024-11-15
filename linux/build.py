@@ -20,7 +20,7 @@ ICON = "../data/icons/scalable/apps/com.system76.keyboardconfigurator.svg"
 # Appimage packaging
 PKG = "keyboard-configurator"
 APPID = "com.system76.keyboardconfigurator"
-ARCH = ["x86_64", "aarch64"]
+ARCHS = ["x86_64", "aarch64"]
 
 # Remove previous build
 for i in glob.glob(f"{PKG}*.AppImage"):
@@ -39,14 +39,20 @@ subprocess.check_call(cmd)
 # Copy executable
 subprocess.check_call([f"strip", '-o', "system76-keyboard-configurator", f"{TARGET_DIR}/system76-keyboard-configurator"])
 
-# Download linuxdeploy
-LINUXDEPLOY = f"linuxdeploy-{ARCH}.AppImage"
-LINUXDEPLOY_URL = f"https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/{LINUXDEPLOY}"
-if not os.path.exists(LINUXDEPLOY):
-    with urlopen(LINUXDEPLOY_URL) as u:
-        with open(LINUXDEPLOY, 'wb') as f:
-            f.write(u.read())
-    os.chmod(LINUXDEPLOY, os.stat(LINUXDEPLOY).st_mode | 0o111)
+# Loop over architectures
+for ARCH in ARCHS:
+    # Correct linuxdeploy file naming for each architecture
+    LINUXDEPLOY = f"linuxdeploy-{ARCH}.AppImage"
+    if ARCH == "aarch64":
+        LINUXDEPLOY = "linuxdeploy-arm64.AppImage"  # Adjusted for aarch64
+
+    LINUXDEPLOY_URL = f"https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/{LINUXDEPLOY}"
+
+    if not os.path.exists(LINUXDEPLOY):
+        with urlopen(LINUXDEPLOY_URL) as u:
+            with open(LINUXDEPLOY, 'wb') as f:
+                f.write(u.read())
+         os.chmod(LINUXDEPLOY, os.stat(LINUXDEPLOY).st_mode | 0o111)
 
 # Copy appdata
 os.makedirs(f"{PKG}.AppDir/usr/share/metainfo")
