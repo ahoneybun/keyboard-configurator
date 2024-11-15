@@ -42,9 +42,9 @@ subprocess.check_call([f"strip", '-o', "system76-keyboard-configurator", f"{TARG
 # Loop over architectures
 for ARCH in ARCHS:
     # Correct linuxdeploy file naming for each architecture
-    LINUXDEPLOY = f"linuxdeploy-{ARCH}.AppImage"
+    LINUXDEPLOY = f"linuxdeploy-x86_64.AppImage"
     if ARCH == "aarch64":
-        LINUXDEPLOY = "linuxdeploy-arm64.AppImage"  # Adjusted for aarch64
+        LINUXDEPLOY = "linuxdeploy-aarch64.AppImage"  # Adjusted for aarch64
 
     LINUXDEPLOY_URL = f"https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/{LINUXDEPLOY}"
 
